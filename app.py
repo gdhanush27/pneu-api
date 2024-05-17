@@ -6,9 +6,26 @@ import os
 import tensorflow as tf
 import numpy as np
 app = Flask(__name__)
-app.config[r'E:\\GIT\\Pneumoia-prediction-WebUI\\server\\uploads'] = 'uploads'
-model1 = tf.keras.models.load_model(r'server\model\pneumonia_detection_model_v1.keras')
-model2 = tf.keras.models.load_model(r'server\model\pneumonia_detection_model_v2.keras')
+app.config['./uploads'] = 'uploads'
+model1_path = r'./model/pneumonia_detection_model_v1.keras'
+model2_path = r'./model/pneumonia_detection_model_v2.keras'
+if not os.path.isfile(model1_path):
+    raise FileNotFoundError(f"Model file {model1_path} not found.")
+if not os.path.isfile(model2_path):
+    raise FileNotFoundError(f"Model file {model2_path} not found.")
+
+try:
+    model1 = tf.keras.models.load_model(model1_path)
+    print("Model 1 loaded successfully.")
+except Exception as e:
+    print(f"Error loading Model 1: {e}")
+
+try:
+    
+    model2 = tf.keras.models.load_model(model2_path)
+    print("Model 2 loaded successfully.")
+except Exception as e:
+    print(f"Error loading Model 2: {e}")
 
 # def predict_img(image):
 #     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
